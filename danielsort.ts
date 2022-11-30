@@ -19,7 +19,7 @@ const basePath = path.resolve(Deno.args[0] || Deno.cwd());
 
 // regex for some application formats that identify as application/ but actually are document files
 const OFFICE_OPEN_XML_REGEX = /application\/vnd\.openxmlformats-officedocument\.(?:wordprocessingml|presentationml|spreadsheetml)\.document/gi;
-const PDF_YML_CSV_REGEX = /application\/(?:pdf|yaml|csv)/gi;
+const PDF_YML_CSV_REGEX = /application\/(?:pdf|yaml|csv|json)/gi;
 const expectedFolders = ["Documents", "Pictures", "Videos", "Audio", "Applications", "Miscellaneous"];
 const documentFolder = path.join(basePath, expectedFolders[0]);
 const imageFolder = path.join(basePath, expectedFolders[1]);
