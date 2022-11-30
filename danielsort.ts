@@ -37,7 +37,7 @@ function *walkSync(directory: string): Generator<string> {
 
     for (const file of files) {
         if (file.isDirectory()) yield* walkSync(path.join(directory, file.name as string));
-        else yield path.join(path.join(directory, file.name as string));
+        else yield path.join(path.join(directory, file?.name as string));
     }
 }
 
@@ -68,27 +68,27 @@ console.log("Now sorting files...");
 
 const fileTypeSorting = [
     {
-        match: fType => fType?.match(OFFICE_OPEN_XML_REGEX) || fType?.match(PDF_YML_CSV_REGEX) || fType?.startsWith("text"),
+        match: (fType: string) => fType?.match(OFFICE_OPEN_XML_REGEX) || fType?.match(PDF_YML_CSV_REGEX) || fType?.startsWith("text"),
         folder: documentFolder
     },
     {
-        match: fType => fType?.startsWith("image"),
+        match: (fType: string) => fType?.startsWith("image"),
         folder: imageFolder
     },
     {
-        match: fType => fType?.startsWith("video"),
+        match: (fType: string) => fType?.startsWith("video"),
         folder: videoFolder
     },
     {
-        match: fType => fType?.startsWith("audio"),
+        match: (fType: string) => fType?.startsWith("audio"),
         folder: audioFolder
     },
     {
-        match: fType => fType?.startsWith("application"),
+        match: (fType: string) => fType?.startsWith("application"),
         folder: applicationsFolder
     },
     {
-        match: fType => true,
+        match: (_fType: string) => true,
         folder: miscFolder
     }
 ];
@@ -98,7 +98,7 @@ for (const file of files) {
     const fType = mime.getType(file);
 
     for (const { match, folder } of fileTypeSorting) {
-        if (match(fType)) {
+        if (match(fType as string)) {
             if (!fs.existsSync(folder)) fs.mkdirSync(folder);
             console.log(`Moving ${file} to ${folder}`);
             fs.renameSync(file, path.join(folder, path.basename(file)));
